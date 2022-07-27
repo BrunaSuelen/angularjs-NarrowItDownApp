@@ -7,29 +7,29 @@
     .service('MenuSearchService', MenuSearchService)
 
       
-  //NarrowItDownController.$inject = ['MenuSearchService'];
+  MenuSearchService.$inject = ['$http'];
   // Service MenuSearchService  
-  function MenuSearchService() {
+  function MenuSearchService($http) {
     this.getMatchedMenuItems = function() {
-      // return $http("https://davids-restaurant.herokuapp.com/menu_items.json")
-      // .then(function (result) {
-        console.log('veio')
-      // });
+      return $http.get("https://davids-restaurant.herokuapp.com/menu_items.json")
+        .then(function(result) {
+          if (result.status == 200) {
+            console.log(result.data.menu_items)
+            return result.data.menu_items;
+          }
+        });
     }
   }
   
 
-  NarrowItDownController.$inject = ['MenuSearchService'];
-  NarrowItDownController.$inject = ['$scope'];
+  NarrowItDownController.$inject = ['$scope', 'MenuSearchService'];
   // Controller NarrowItDownController
   function NarrowItDownController($scope, MenuSearchService) {
-    console.log(MenuSearchService, $scope)
    $scope.foundItems = [];
     
    $scope.teste = function() {
       console.log("veio")
-    //   var shoppingList = new MenuSearchService();
-    //   console.log(shoppingList)
+     console.log(MenuSearchService.getMatchedMenuItems())
     }
   }
 }
