@@ -7,8 +7,9 @@
     .service('MenuSearchService', MenuSearchService)
 
       
-  MenuSearchService.$inject = ['$http'];
   // Service MenuSearchService  
+  MenuSearchService.$inject = ['$http'];
+
   function MenuSearchService($http) {
     this.getMatchedMenuItems = function() {
       return $http.get("https://davids-restaurant.herokuapp.com/menu_items.json")
@@ -17,19 +18,22 @@
             console.log(result.data.menu_items)
             return result.data.menu_items;
           }
+
+          return null;
         });
     }
   }
   
 
-  NarrowItDownController.$inject = ['$scope', 'MenuSearchService'];
   // Controller NarrowItDownController
+  NarrowItDownController.$inject = ['$scope', 'MenuSearchService'];
+  
   function NarrowItDownController($scope, MenuSearchService) {
-   $scope.foundItems = [];
+    $scope.found = [];
     
-   $scope.teste = function() {
-      console.log("veio")
-     console.log(MenuSearchService.getMatchedMenuItems())
+    $scope.teste = function() {
+      $scope.found = MenuSearchService.getMatchedMenuItems()
+      console.log($scope.found)
     }
   }
 }
