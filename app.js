@@ -117,31 +117,32 @@
 
 
   // Controller NarrowItDownController
-  NarrowItDownController.$inject = [ '$scope', 'NarrowItDownFactory' ];
+  NarrowItDownController.$inject = [ 'NarrowItDownFactory' ];
 
-  function NarrowItDownController($scope, NarrowItDownFactory) {
-    $scope.found;
-    $scope.term = '';
-    $scope.service = NarrowItDownFactory();
+  function NarrowItDownController(NarrowItDownFactory) {
+    let controller = this;
+    controller.found;
+    controller.term = '';
+    controller.service = NarrowItDownFactory();
 
-    $scope.teste = function() {
-      $scope.found = [];
+    controller.search = function() {
+      controller.found = [];
 
-      if ($scope.term) {
-        $scope.found = $scope.service.getMatchedMenuItems($scope.term);
+      if (controller.term) {
+        controller.found = controller.service.getMatchedMenuItems(controller.term);
       }
     }
 
-    $scope.showMessageNothingFound = function() {
-      let found = $scope.found;
-      let loading = $scope.service.loading;
+    controller.showMessageNothingFound = function() {
+      let found = controller.found;
+      let loading = controller.service.loading;
       let foundList = found && found.$$state?.value;
 
-      return !loading && ((foundList && foundList.length == 0) || (!$scope.term && found));
+      return !loading && ((foundList && foundList.length == 0) || (!controller.term && found));
     }
 
-    $scope.removeItem = function(index) {
-      $scope.service.removeItem(index);
+    controller.removeItem = function(index) {
+      controller.service.removeItem(index);
     }
   }
 }
