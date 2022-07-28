@@ -129,12 +129,20 @@
   NarrowItDownController.$inject = [ '$scope', 'NarrowItDownFactory' ];
 
   function NarrowItDownController($scope, NarrowItDownFactory) {
-    $scope.found = [];
+    $scope.found;
     $scope.term = '';
     $scope.service = NarrowItDownFactory();
 
     $scope.teste = function() {
-      $scope.found = $scope.service.getMatchedMenuItems($scope.term);
+      $scope.found = [];
+
+      if ($scope.term) {
+        $scope.found = $scope.service.getMatchedMenuItems($scope.term);
+      }
+    }
+
+    $scope.showMessageNothingFound = function() {
+      return $scope.found && $scope.found.length == 0;
     }
   }
 }

@@ -12,7 +12,7 @@ input[type="text"] {
   margin-left: 10px;
 }
 
-.foundItems {
+.found-items {
   margin-top: 8em;
 }
 
@@ -33,7 +33,13 @@ input[type="text"] {
 } 
 
 .panel-default>.panel-body {
-      padding: 10px 15px;
+  padding: 10px 15px;
+}
+
+.message-nothing-found {
+  color: #494949;
+  text-align: center;
+  padding-top: 20px;
 }
 
 .loader {
