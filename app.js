@@ -3,13 +3,15 @@
 
   angular
     .module('NarrowItDownApp', [])
+    .service('MenuSearchService', MenuSearchService)
     .controller('NarrowItDownController', NarrowItDownController)
-    .factory('NarrowItDownFactory', NarrowItDownFactory)
     .directive('foundItems', FoundItemsDirective)
     .directive('loading', LoadingDirective)
 
       
   // Service MenuSearchService
+  MenuSearchService.$inject = ['$http'];
+
   function MenuSearchService($http) {
     let service = this;
     let foundItems = [];
@@ -105,25 +107,14 @@
 
 
 
-  // Factory NarrowItDownFactory
-  NarrowItDownFactory.$inject = ['$http'];
-  
-  function NarrowItDownFactory($http) {
-    return function() {
-      return new MenuSearchService($http);
-    };
-  }
-
-
-
   // Controller NarrowItDownController
-  NarrowItDownController.$inject = [ 'NarrowItDownFactory' ];
+  NarrowItDownController.$inject = ['MenuSearchService'];
 
-  function NarrowItDownController(NarrowItDownFactory) {
+  function NarrowItDownController(MenuSearchService) {
     let controller = this;
     controller.found;
     controller.term = '';
-    controller.service = NarrowItDownFactory();
+    controller.service = MenuSearchService;
 
     controller.search = function() {
       controller.found = [];
