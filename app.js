@@ -40,7 +40,6 @@
         }
       }
 
-      console.log(items);
       return items;
     }
   }
@@ -49,68 +48,38 @@
 
   // FoundItemsDirective
   function FoundItemsDirective() {
-    var ddo = {
+    return {
       templateUrl: 'foundItems.html',
       scope: { 
         found: '<',
         onRemove: "&"
       },
       controller: FoundItemsDirectiveController,
-      controllerAs: 'list',
+      controllerAs: 'foundItems',
       bindToController: true,
       link: FoundItemsDirectiveLink
     };
-
-    return ddo;
   }
 
   function FoundItemsDirectiveLink(scope, element, attrs, controller) {
     console.log("Link scope is: ", scope);
     console.log("Controller instance is: ", controller);
     console.log("Element is: ", element);
+    console.log("attrs is: ", attrs);
 
-    scope.$watch('list.getFound()', 
+    scope.$watch('foundItems.getFoundItens()',
       function (newValue, oldValue) {
-        console.log("Old value: ", oldValue);
-        console.log("New value: ", newValue);
-
-        // if (newValue === true) {
-        //   displayCookieWarning();
-        // }
-        // else {
-        //   removeCookieWarning();
-        // }
-
+        if (newValue) {
+          controller.setFoundItens(newValue)
+        }
       }
     );
-
-    // function displayCookieWarning() {
-    //   // Using Angluar jqLite
-    //   // var warningElem = element.find("div");
-    //   // console.log(warningElem);
-    //   // warningElem.css('display', 'block');
-
-    //   // If jQuery included before Angluar
-    //   var warningElem = element.find("div.error");
-    //   warningElem.slideDown(900);
-    // }
-
-
-    // function removeCookieWarning() {
-    //   // Using Angluar jqLite
-    //   // var warningElem = element.find("div");
-    //   // warningElem.css('display', 'none');
-
-    //   // If jQuery included before Angluar
-    //   var warningElem = element.find("div.error");
-    //   warningElem.slideUp(900);
-    // }
   }
 
   function FoundItemsDirectiveController() {
-    var list = this;
+    var foundItems = this;
 
-    list.removeItem = function(itemIndex) {
+    foundItems.removeItem = function(itemIndex) {
       console.log("'this' is: ", this);
       console.log(itemIndex);
       // this.lastRemoved = "Last item removed was " + this.items[itemIndex].name;
@@ -118,14 +87,22 @@
       // this.title = origTitle + " (" + viewList.items.length + " items )";
     };
 
-    list.getFound = function() {
-      console.log(list)
-      return list.found?.length;
+    foundItems.getFoundItens = function() {
+      let items = foundItems.found;
+
+      if (items && items.$$state?.value) {
+        return items?.$$state?.value;
+      }
+    }
+
+    foundItems.setFoundItens = function(items) {
+      foundItems.found = items;
     }
   }
 
 
 
+  // Factory NarrowItDownFactory
   NarrowItDownFactory.$inject = ['$http'];
   
   function NarrowItDownFactory($http) {
