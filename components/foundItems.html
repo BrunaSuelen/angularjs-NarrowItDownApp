@@ -6,7 +6,11 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">{{ item.short_name }} - {{ item.name }}</h3>
-      <button type="button" class="btn btn-danger">
+      <button 
+        type="button" 
+        class="btn btn-danger" 
+        ng-click="foundItems.onRemove({index: $index});"
+        >
         Don't want this one!
       </button>
     </div>

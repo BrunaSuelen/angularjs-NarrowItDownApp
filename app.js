@@ -45,8 +45,12 @@
         }
       }
 
-      return items;
+      return foundItems = items;
     }
+
+    service.removeItem = function(itemIndex) {
+      return foundItems.splice(itemIndex, 1);
+    };
   }
   
 
@@ -74,11 +78,6 @@
   }
 
   function FoundItemsDirectiveLink(scope, element, attrs, controller) {
-    console.log("Link scope is: ", scope);
-    console.log("Controller instance is: ", controller);
-    console.log("Element is: ", element);
-    console.log("attrs is: ", attrs);
-
     scope.$watch('foundItems.getFoundItens()',
       function (newValue, oldValue) {
         if (newValue) {
@@ -90,14 +89,6 @@
 
   function FoundItemsDirectiveController() {
     var foundItems = this;
-
-    foundItems.removeItem = function(itemIndex) {
-      console.log("'this' is: ", this);
-      console.log(itemIndex);
-      // this.lastRemoved = "Last item removed was " + this.items[itemIndex].name;
-      // shoppingList.removeItem(itemIndex);
-      // this.title = origTitle + " (" + viewList.items.length + " items )";
-    };
 
     foundItems.getFoundItens = function() {
       let items = foundItems.found;
@@ -142,7 +133,17 @@
     }
 
     $scope.showMessageNothingFound = function() {
-      return $scope.found && $scope.found.length == 0;
+      let found = $scope.found;
+      let loading = $scope.service.loading;
+      let foundList = found && found.$$state?.value;
+      let emptyField = !$scope.term && found;
+      let nothingFound = foundList && foundList.length == 0;
+
+      return !loading && (nothingFound || emptyField);
+    }
+
+    $scope.removeItem = function(index) {
+      $scope.service.removeItem(index);
     }
   }
 }
