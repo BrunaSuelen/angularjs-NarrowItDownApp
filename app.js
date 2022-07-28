@@ -19,7 +19,7 @@
       service.loading = true;
 
       return $http
-        .get("https://davids-restaurant.herokuapp.com/menu_items.json")
+        .get("http://davids-restaurant.herokuapp.com/menu_items.json")
         .then(function(result) {
           if (result.status == 200) {
             foundItems = result.data.menu_items;
@@ -57,7 +57,7 @@
 
   // FoundItemsDirective
   function LoadingDirective() {
-    return { templateUrl: '/components/itemsloaderindicator.html' };
+    return { templateUrl: './components/itemsloaderindicator.html' };
   }
 
 
@@ -65,7 +65,7 @@
   // FoundItemsDirective
   function FoundItemsDirective() {
     return {
-      templateUrl: '/components/foundItems.html',
+      templateUrl: './components/foundItems.html',
       scope: { 
         found: '<',
         onRemove: "&"
@@ -136,10 +136,8 @@
       let found = $scope.found;
       let loading = $scope.service.loading;
       let foundList = found && found.$$state?.value;
-      let emptyField = !$scope.term && found;
-      let nothingFound = foundList && foundList.length == 0;
 
-      return !loading && (nothingFound || emptyField);
+      return !loading && ((foundList && foundList.length == 0) || (!$scope.term && found));
     }
 
     $scope.removeItem = function(index) {
