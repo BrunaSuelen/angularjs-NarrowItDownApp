@@ -59,7 +59,7 @@
 
   // LoadingDirective
   function LoadingDirective() {
-    return { templateUrl: './components/itemsloaderindicator.html' };
+    return { templateUrl: './directive/itemsloaderindicator.html' };
   }
 
 
@@ -67,7 +67,7 @@
   // FoundItemsDirective
   function FoundItemsDirective() {
     return {
-      templateUrl: './components/foundItems.html',
+      templateUrl: './directive/foundItems.html',
       scope: { 
         found: '<',
         onRemove: "&"
