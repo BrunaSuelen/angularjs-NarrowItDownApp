@@ -4,24 +4,44 @@
   angular
     .module('NarrowItDownApp', [])
     .controller('NarrowItDownController', NarrowItDownController)
-    .service('MenuSearchService', MenuSearchService)
+    .factory('NarrowItDownFactory', NarrowItDownFactory)
     .directive('foundItems', FoundItemsDirective)
 
       
-  // Service MenuSearchService  
-  MenuSearchService.$inject = ['$http'];
-
+  // Service MenuSearchService
   function MenuSearchService($http) {
-    this.getMatchedMenuItems = function() {
-      return $http.get("https://davids-restaurant.herokuapp.com/menu_items.json")
+    let service = this;
+    let foundItems = [];
+
+    service.getMatchedMenuItems = function(term) {
+      return $http
+        .get("https://davids-restaurant.herokuapp.com/menu_items.json")
         .then(function(result) {
           if (result.status == 200) {
-            console.log(result.data.menu_items)
-            return result.data.menu_items;
+            foundItems = result.data.menu_items;
+            return service.findItensByTerm(term);
           }
 
           return null;
         });
+    }
+
+    service.findItensByTerm = function(term) {
+      let items = [];
+      let length = foundItems.length;
+
+      for (let i=0; i < length; i++) {
+        let item = foundItems[i];
+        let description = item.description.toUpperCase();
+        let termUpper = term ? term.toUpperCase() : '';
+
+        if (description.indexOf(termUpper) !== -1) {
+          items.push(item);
+        }
+      }
+
+      console.log(items);
+      return items;
     }
   }
   
@@ -31,7 +51,10 @@
   function FoundItemsDirective() {
     var ddo = {
       templateUrl: 'foundItems.html',
-      scope: { found: '<' },
+      scope: { 
+        found: '<',
+        onRemove: "&"
+      },
       controller: FoundItemsDirectiveController,
       controllerAs: 'list',
       bindToController: true,
@@ -46,7 +69,7 @@
     console.log("Controller instance is: ", controller);
     console.log("Element is: ", element);
 
-    scope.$watch('list.cookiesInList()', 
+    scope.$watch('list.getFound()', 
       function (newValue, oldValue) {
         console.log("Old value: ", oldValue);
         console.log("New value: ", newValue);
@@ -85,20 +108,47 @@
   }
 
   function FoundItemsDirectiveController() {
-    
+    var list = this;
+
+    list.removeItem = function(itemIndex) {
+      console.log("'this' is: ", this);
+      console.log(itemIndex);
+      // this.lastRemoved = "Last item removed was " + this.items[itemIndex].name;
+      // shoppingList.removeItem(itemIndex);
+      // this.title = origTitle + " (" + viewList.items.length + " items )";
+    };
+
+    list.getFound = function() {
+      console.log(list)
+      return list.found?.length;
+    }
+  }
+
+
+
+  NarrowItDownFactory.$inject = ['$http'];
+  
+  function NarrowItDownFactory($http) {
+    var factory = function() {
+      return new MenuSearchService($http);
+    };
+
+    return factory;
   }
 
 
 
   // Controller NarrowItDownController
-  NarrowItDownController.$inject = ['$scope', 'MenuSearchService'];
+  NarrowItDownController.$inject = [ '$scope', 'NarrowItDownFactory' ];
 
-  function NarrowItDownController($scope, MenuSearchService) {
+  function NarrowItDownController($scope, NarrowItDownFactory) {
     $scope.found = [];
-    
+    $scope.term = '';
+    let service = NarrowItDownFactory();
+
     $scope.teste = function() {
-      $scope.found = MenuSearchService.getMatchedMenuItems();
-      console.log($scope.found)
+      console.log($scope.term)
+      $scope.found = service.getMatchedMenuItems($scope.term);
     }
   }
 }
