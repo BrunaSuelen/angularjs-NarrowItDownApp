@@ -5,11 +5,13 @@
 <div ng-repeat="item in foundItems.found">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{ item.name }}</h3>
+      <h3 class="panel-title">{{ item.short_name }} - {{ item.name }}</h3>
+      <button type="button" class="btn btn-danger">
+        Don't want this one!
+      </button>
     </div>
     <div class="panel-body">
-      <p ng-click="foundItems.onRemove({index: 1});">oi</p>
-      {{ item.description }}
+      <p>{{ item.description }}</p>
     </div>
   </div>
 </div>

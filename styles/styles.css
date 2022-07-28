@@ -20,6 +20,22 @@ input[type="text"] {
   text-align: right;
 }
 
+.panel-default>.panel-heading {
+  display: flex;
+}
+
+.panel-default .btn-danger {
+  margin-left: auto;
+}
+
+.panel-default>.panel-heading .panel-title {
+  margin: auto 0;
+} 
+
+.panel-default>.panel-body {
+      padding: 10px 15px;
+}
+
 .loader {
   display: block;
   margin-left: 5px;
