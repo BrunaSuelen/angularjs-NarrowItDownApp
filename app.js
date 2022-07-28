@@ -14,7 +14,7 @@
 
   function MenuSearchService($http) {
     let service = this;
-    let foundItems = [];
+    let list = [];
     service.loading = false;
 
     service.getMatchedMenuItems = function(term) {
@@ -24,7 +24,7 @@
         .get("//davids-restaurant.herokuapp.com/menu_items.json")
         .then(function(result) {
           if (result.status == 200) {
-            foundItems = result.data.menu_items;
+            list = result.data.menu_items;
             service.loading = false;
             return service.findItensByTerm(term);
           }
@@ -35,10 +35,10 @@
 
     service.findItensByTerm = function(term) {
       let items = [];
-      let length = foundItems.length;
+      let length = list.length;
 
       for (let i=0; i < length; i++) {
-        let item = foundItems[i];
+        let item = list[i];
         let description = item.description.toUpperCase();
         let termUpper = term ? term.toUpperCase() : '';
 
@@ -47,17 +47,17 @@
         }
       }
 
-      return foundItems = items;
+      return list = items;
     }
 
     service.removeItem = function(itemIndex) {
-      return foundItems.splice(itemIndex, 1);
+      return list.splice(itemIndex, 1);
     };
   }
   
 
 
-  // FoundItemsDirective
+  // LoadingDirective
   function LoadingDirective() {
     return { templateUrl: './components/itemsloaderindicator.html' };
   }
@@ -90,18 +90,18 @@
   }
 
   function FoundItemsDirectiveController() {
-    var foundItems = this;
+    var list = this;
 
-    foundItems.getFoundItens = function() {
-      let items = foundItems.found;
+    list.getFoundItens = function() {
+      let items = list.found;
 
       if (items && items.$$state?.value) {
         return items?.$$state?.value;
       }
     }
 
-    foundItems.setFoundItens = function(items) {
-      foundItems.found = items;
+    list.setFoundItens = function(items) {
+      list.found = items;
     }
   }
 
