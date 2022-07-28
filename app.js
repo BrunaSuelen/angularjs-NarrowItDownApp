@@ -19,7 +19,7 @@
       service.loading = true;
 
       return $http
-        .get("http://davids-restaurant.herokuapp.com/menu_items.json")
+        .get("//davids-restaurant.herokuapp.com/menu_items.json")
         .then(function(result) {
           if (result.status == 200) {
             foundItems = result.data.menu_items;
