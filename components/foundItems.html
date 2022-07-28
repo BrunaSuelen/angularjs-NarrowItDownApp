@@ -1,12 +1,15 @@
+<h4 class="count-items" ng-if="foundItems.found.length">
+  Items: {{foundItems.found.length}}
+</h4>
+
 <div ng-repeat="item in foundItems.found">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">{{ item.name }}</h3>
     </div>
     <div class="panel-body">
+      <p ng-click="foundItems.onRemove({index: 1});">oi</p>
       {{ item.description }}
     </div>
   </div>
 </div>
-{{ JSON.stringfy(foundItems.found) }}
-<p ng-click="foundItems.onRemove({index: 1});"></p>

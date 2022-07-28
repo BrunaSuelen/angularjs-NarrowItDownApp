@@ -58,3 +58,13 @@
   }
 }
 )()
+
+
+description: "chicken-stuffed won tons in clear chicken broth with white meat chicken pieces and a few scallions"
+id: 877
+large_portion_name: "quart"
+name: "Won Ton Soup with Chicken"
+price_large: 5
+price_small: 2.55
+short_name: "A1"
+small_portion_name: "pint"

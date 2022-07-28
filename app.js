@@ -6,19 +6,24 @@
     .controller('NarrowItDownController', NarrowItDownController)
     .factory('NarrowItDownFactory', NarrowItDownFactory)
     .directive('foundItems', FoundItemsDirective)
+    .directive('loading', LoadingDirective)
 
       
   // Service MenuSearchService
   function MenuSearchService($http) {
     let service = this;
     let foundItems = [];
+    service.loading = false;
 
     service.getMatchedMenuItems = function(term) {
+      service.loading = true;
+
       return $http
         .get("https://davids-restaurant.herokuapp.com/menu_items.json")
         .then(function(result) {
           if (result.status == 200) {
             foundItems = result.data.menu_items;
+            service.loading = false;
             return service.findItensByTerm(term);
           }
 
@@ -47,9 +52,16 @@
 
 
   // FoundItemsDirective
+  function LoadingDirective() {
+    return { templateUrl: '/components/itemsloaderindicator.html' };
+  }
+
+
+
+  // FoundItemsDirective
   function FoundItemsDirective() {
     return {
-      templateUrl: 'foundItems.html',
+      templateUrl: '/components/foundItems.html',
       scope: { 
         found: '<',
         onRemove: "&"
@@ -70,7 +82,7 @@
     scope.$watch('foundItems.getFoundItens()',
       function (newValue, oldValue) {
         if (newValue) {
-          controller.setFoundItens(newValue)
+          controller.setFoundItens(newValue);
         }
       }
     );
@@ -106,11 +118,9 @@
   NarrowItDownFactory.$inject = ['$http'];
   
   function NarrowItDownFactory($http) {
-    var factory = function() {
+    return function() {
       return new MenuSearchService($http);
     };
-
-    return factory;
   }
 
 
@@ -121,11 +131,10 @@
   function NarrowItDownController($scope, NarrowItDownFactory) {
     $scope.found = [];
     $scope.term = '';
-    let service = NarrowItDownFactory();
+    $scope.service = NarrowItDownFactory();
 
     $scope.teste = function() {
-      console.log($scope.term)
-      $scope.found = service.getMatchedMenuItems($scope.term);
+      $scope.found = $scope.service.getMatchedMenuItems($scope.term);
     }
   }
 }

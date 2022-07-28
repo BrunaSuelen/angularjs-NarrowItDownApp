@@ -1,16 +1,27 @@
 h1 {
   margin-bottom: 30px;
 }
+
 input[type="text"] {
   width: 200px;
   float: left;
 }
+
 .narrow-button {
   float: left;
   margin-left: 10px;
 }
+
+.foundItems {
+  margin-top: 8em;
+}
+
+.count-items {
+  text-align: right;
+}
+
 .loader {
-  display: none;
+  display: block;
   margin-left: 5px;
   font-size: 10px;
   float: left;
@@ -24,12 +35,14 @@ input[type="text"] {
   -webkit-animation: load8 1.1s infinite linear;
   animation: load8 1.1s infinite linear;
 }
+
 .loader,
 .loader:after {
   border-radius: 50%;
   width: 3em;
   height: 3em;
 }
+
 @-webkit-keyframes load8 {
   0% {
     -webkit-transform: rotate(0deg);
@@ -40,6 +53,7 @@ input[type="text"] {
     transform: rotate(360deg);
   }
 }
+
 @keyframes load8 {
   0% {
     -webkit-transform: rotate(0deg);

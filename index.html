@@ -21,13 +21,14 @@
       </div>
 
       <!-- found-items should be implemented as a component -->
-      <div id="list">
+      <div class="foundItems">
         <found-items 
           found="found"
           onRemove="onRemove(index)">
         </found-items>
+
+        <loading ng-if="service.loading"></loading>
       </div>
     </div>
-
   </body>
 </html>
