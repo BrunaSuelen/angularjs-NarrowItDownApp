@@ -29,8 +29,10 @@
 
         <loading ng-if="controller.service.loading"></loading>
 
-        <p class="message-nothing-found" ng-if="controller.showMessageNothingFound()">
-          Nothing found
+        <p 
+          class="alert alert-danger" role="alert"
+          ng-if="controller.showMessageNothingFound()">
+          <strong>Ops! </strong>Nothing found
         </p>
       </div>
     </div>
