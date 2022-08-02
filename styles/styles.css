@@ -37,10 +37,10 @@ input[type="text"] {
   padding: 10px 15px;
 }
 
-.message-nothing-found {
-  color: #494949;
-  text-align: center;
-  padding-top: 20px;
+h1.title-page {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 4rem;
 }
 
 span.label-info {
@@ -75,6 +75,55 @@ span.label-info {
   border-radius: 50%;
   width: 16rem;
   height: 16rem;
+}
+
+@media only screen and (max-width: 500px) {
+  h1.title-page {
+    text-align: center;
+  }
+
+  input[type="text"] {
+    width: 100%;
+  }
+
+  .narrow-button {
+    margin: 0;
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .found-items {
+    margin-top: 10em;
+  }
+
+  span.label-info {
+    margin: auto 0;
+    margin-top: 8px;
+    margin-right: 10px;
+  }
+
+  .panel-default>.panel-heading {
+    display: flex;
+    height: 100px;
+  }
+
+  .panel-default>.panel-heading .panel-title {
+    margin: 0;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+
+  .panel-default .btn-danger {
+    position: absolute;
+    margin-top: 5rem;
+    font-size: x-small;
+    font-weight: 600;
+    right: 28px;
+  }
 }
 
 @-webkit-keyframes load8 {
